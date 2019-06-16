@@ -13,6 +13,7 @@ public interface MemberService {
 	int delete(Member member);	
 	int findByUid(Member member);	
 	
+	
 	List<Member> findByAddress(String address);
 	//List<Member> findByName(String address);
 }
