@@ -82,6 +82,7 @@ public class MemberViewController implements Initializable {
 		//btnDelete.setOnMouseClicked(e -> handleDelete());		
 		
 		btnFindByAddress.setOnMouseClicked(event -> handleFindByAddress());	//주소버튼
+		btnFindByName.setOnMouseClicked(event -> handleFindByName());		//이름버튼
 		
 		loadMemberTableView();
 	}
@@ -158,34 +159,60 @@ public class MemberViewController implements Initializable {
 	}
 	
 	
+	@FXML 
+	private void handleFindByName() {	//이름검색
+		String condition = tfFindCondition.getText();
+		taFindResult.setText("");
+		if(condition.length() > 0) {		//length길이의 유무
+			List<Member> searched = memberService.findByName(condition);
+			if(searched.size() > 0) {		//검색된 결과의 유무
+				int no = 1;
+				for(Member m : searched) {	//출력 부분
+					taFindResult.appendText(no++ + " ) " + m.getAddress() + " : " + m.getEmail() + " : " + m.getName() + " \n");
+				}
+			}
+			else
+				taFindResult.setText("검색 조건에 맞는 정보가 없습니다.");
+		}
+		else
+			this.showAlert("검색 조건을 입력하십시요");			
+	}
+	
 	
 	@FXML 
 	private void handleCreate() { // event source, listener, handler
-		if(checkValidForm()) {			
-			Member newMember = 
-					new Member(tfEmail.getText(), tfPw.getText(), tfName.getText(), 
-							tfBirth.getText(), "20", tfAddress.getText(), tfContact.getText()); // 7개 필드임
-			data.add(newMember);			
-			tableViewMember.setItems(data);
-			memberService.create(newMember);
-		} else
-			showAlert("필수항목 완벽한 입력 ");
-		/*//이메일중복
+		//이메일중복
 		if(tfEmail.getText().length() > 0) {
-			Member newMember = 
-					new Member(tfEmail.getText(), tfPw.getText(), tfName.getText(), 
-							tfBirth.getText(), "20", tfAddress.getText(), tfContact.getText()); // 7개 필드임
-			if( memberService.findByUid(newMember) < 0) {
-				data.add(newMember);			
-				tableViewMember.setItems(data);
-				memberService.create(newMember);
-			}
-			else {
-				showAlert("아이디 중복으로 등록할 수 없습니다.");
-			}
-			
-		} else
-			showAlert("ID 입력오류");
+			if(checkValidForm()) {			
+				Member newMember = 
+						new Member(tfEmail.getText(), tfPw.getText(), tfName.getText(), 
+								tfBirth.getText(), "20", tfAddress.getText(), tfContact.getText()); // 7개 필드임
+				if( memberService.findByUid(newMember) < 0) {
+					data.add(newMember);			
+					tableViewMember.setItems(data);
+					memberService.create(newMember);
+				}else {
+					showAlert("아이디 중복으로 등록할 수 없습니다.");
+				}			
+			} else
+				showAlert("필수항목 완벽한 입력 ");
+		}
+		/*
+			//이메일중복
+			if(tfEmail.getText().length() > 0) {
+				Member newMember = 
+						new Member(tfEmail.getText(), tfPw.getText(), tfName.getText(), 
+								tfBirth.getText(), "20", tfAddress.getText(), tfContact.getText()); // 7개 필드임
+				if( memberService.findByUid(newMember) < 0) {
+					data.add(newMember);			
+					tableViewMember.setItems(data);
+					memberService.create(newMember);
+				}
+				else {
+					showAlert("아이디 중복으로 등록할 수 없습니다.");
+				}			
+			} else
+				showAlert("ID 입력오류");		
 		*/
 	}
 	@FXML 
@@ -196,11 +223,11 @@ public class MemberViewController implements Initializable {
 		int selectedIndex = tableViewMember.getSelectionModel().getSelectedIndex();
 		// uid를 변경하고 수정 -> 생성으로 처리하게 된다.
 		// uid로 조회하는데 uid가 수정이되면 실제로 수정이 불가능함, findByUid() 가 -1 반환
-		/*
+		
 		 if (selectedIndex != memberService.findByUid(newMember)) {
 			showAlert("아이디를 수정하면 업데이트 할 수 없습니다.");    
 		}
-		*/
+		
 		if (selectedIndex >= 0) {
 			tableViewMember.getItems().set(selectedIndex, newMember);
 			memberService.update(newMember);			

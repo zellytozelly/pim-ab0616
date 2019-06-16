@@ -68,5 +68,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.searchByAddress(address);
 	}
 	
+	@Override
+	public List<Member> findByName(String name) {
+		return memberDAO.searchByName(name);
+	}
+	
 
 }
