@@ -21,7 +21,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			this.rootStage = primaryStage;
-	        this.rootStage.setTitle("Have a PASSION!");
+	        this.rootStage.setTitle("PASSION is Responsibility");
 	        
 			loadMainBoderPane();
 			loadMemberAnchorPane();			
@@ -38,7 +38,7 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("/view/RootView.fxml")); // view controls					
 			rootBorderPane = (BorderPane) loader.load();
 			
-			Scene scene = new Scene(rootBorderPane, 800, 600);
+			Scene scene = new Scene(rootBorderPane, 900, 600);
 			scene.getStylesheets().add(Main.class.getResource("/view/member.css").toExternalForm());
 			rootStage.setScene(scene);	
 			rootStage.show();
