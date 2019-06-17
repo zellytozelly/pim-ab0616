@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import model.Member;
@@ -17,6 +18,9 @@ public class MemberDAO {
 	private File file = null;
 	private MemberFileReader fr = null;
 	private MemberFileWriter fw = null;
+	//private int year = Calendar.getInstance().get(Calendar.YEAR);	//다른방식의 age
+
+	
 	// 현재 tab 기호를 이용하고 있음
 	public MemberDAO(File file) {	
 		this.file = file;
